@@ -1,0 +1,84 @@
+{
+  "name": "@dannyfranca/eventus",
+  "version": "0.0.1",
+  "description": "Event Manager made with RxJS Subjects and inspired by jQuery event API.",
+  "license": "MIT",
+  "author": {
+    "name": "Danny França",
+    "email": "contato@dannyfranca.com"
+  },
+  "contributors": [
+    {
+      "name": "Danny França <contato@dannyfranca.com>"
+    }
+  ],
+  "source": "src/index.js",
+  "main": "lib/index.js",
+  "module": "lib/index.mjs",
+  "unpkg": "lib/index.umd.js",
+  "types": "lib/index.d.ts",
+  "repository": "https://github.com/dannyfranca/eventus",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development jest --watch",
+    "build": "cross-env NODE_ENV=production concurrently 'microbundle' 'typedoc'",
+    "test": "cross-env NODE_ENV=test concurrently 'yarn:type-check' 'yarn:lint' 'jest'",
+    "coverage": "codecov",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint --ext .ts,.js --ignore-path .gitignore --fix src/**",
+    "precommit": "concurrently -n type-check,lint 'yarn type-check' 'yarn lint'",
+    "doc": "typedoc",
+    "publish": "npm publish --access public"
+  },
+  "keywords": [
+    "event",
+    "on",
+    "off",
+    "subscribe",
+    "unsubscribe",
+    "trigger",
+    "next",
+    "handler",
+    "manager",
+    "jquery",
+    "rxjs",
+    "subject",
+    "observer"
+  ],
+  "bugs": {
+    "url": "https://github.com/dannyfranca/eventus/issues"
+  },
+  "homepage": "https://github.com/dannyfranca/eventus#readme",
+  "devDependencies": {
+    "@babel/core": "^7.8.0",
+    "@babel/plugin-transform-runtime": "^7.8.0",
+    "@babel/preset-typescript": "^7.8.0",
+    "@dannyfranca/handsome-helpers": "^0.4.1",
+    "@types/jest": "^24.9.0",
+    "@types/node": "^13.1.6",
+    "@typescript-eslint/eslint-plugin": "^2.16.0",
+    "@typescript-eslint/parser": "^2.16.0",
+    "codecov": "^3.6.1",
+    "concurrently": "^5.0.2",
+    "cross-env": "^6.0.3",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.0.7",
+    "jest": "^25.1.0",
+    "jest-extended": "^0.11.4",
+    "lint-staged": "^9.5.0",
+    "microbundle": "^0.11.0",
+    "prettier": "^1.19.1",
+    "ts-jest": "^24.3.0",
+    "ts-node": "^8.6.2",
+    "typedoc": "^0.16.2",
+    "typescript": "^3.7.4"
+  },
+  "dependencies": {
+    "@dannyfranca/common-types": "^0.1.1",
+    "rxjs": "^6.5.4"
+  }
+}
