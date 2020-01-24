@@ -1,7 +1,7 @@
 {
   "name": "@dannyfranca/eventus",
-  "version": "0.0.1",
-  "description": "Event Manager made with RxJS Subjects and inspired by jQuery event API.",
+  "version": "0.1.0",
+  "description": "Event Manager made with RxJS's Subjects, inspired by jQuery's event API.",
   "license": "MIT",
   "author": {
     "name": "Danny França",
@@ -12,24 +12,24 @@
       "name": "Danny França <contato@dannyfranca.com>"
     }
   ],
-  "source": "src/index.js",
-  "main": "lib/index.js",
-  "module": "lib/index.mjs",
-  "unpkg": "lib/index.umd.js",
-  "types": "lib/index.d.ts",
+  "source": "src/eventus.ts",
+  "main": "lib/eventus.js",
+  "module": "lib/eventus.mjs",
+  "unpkg": "lib/eventus.umd.js",
+  "types": "lib/eventus.d.ts",
   "repository": "https://github.com/dannyfranca/eventus",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
     "dev": "cross-env NODE_ENV=development jest --watch",
-    "build": "cross-env NODE_ENV=production concurrently 'microbundle' 'typedoc'",
-    "test": "cross-env NODE_ENV=test concurrently 'yarn:type-check' 'yarn:lint' 'jest'",
+    "build": "cross-env NODE_ENV=production concurrently -n microbundle,typedoc 'microbundle' 'typedoc'",
+    "test": "cross-env NODE_ENV=test concurrently -n type-check,lint,jest 'yarn:type-check' 'yarn:lint' 'jest'",
+    "precommit": "concurrently -n type-check,lint 'yarn:type-check' 'yarn:lint'",
+    "doc": "typedoc",
     "coverage": "codecov",
     "type-check": "tsc --noEmit",
     "lint": "eslint --ext .ts,.js --ignore-path .gitignore --fix src/**",
-    "precommit": "concurrently -n type-check,lint 'yarn type-check' 'yarn lint'",
-    "doc": "typedoc",
     "publish": "npm publish --access public"
   },
   "keywords": [
@@ -52,10 +52,6 @@
   },
   "homepage": "https://github.com/dannyfranca/eventus#readme",
   "devDependencies": {
-    "@babel/core": "^7.8.0",
-    "@babel/plugin-transform-runtime": "^7.8.0",
-    "@babel/preset-typescript": "^7.8.0",
-    "@dannyfranca/handsome-helpers": "^0.4.1",
     "@types/jest": "^24.9.0",
     "@types/node": "^13.1.6",
     "@typescript-eslint/eslint-plugin": "^2.16.0",
@@ -78,7 +74,6 @@
     "typescript": "^3.7.4"
   },
   "dependencies": {
-    "@dannyfranca/common-types": "^0.1.1",
     "rxjs": "^6.5.4"
   }
 }

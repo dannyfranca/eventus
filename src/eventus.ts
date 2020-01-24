@@ -1,5 +1,5 @@
 import { Subject, Subscription } from 'rxjs'
-import { CheckManyAndThrowConfig } from './types'
+import { CheckManyAndThrowConfig, ErrorHandler } from './types'
 import {
   SubjectPool,
   SubscriptionNamespaces,
@@ -10,6 +10,9 @@ import {
 export class Eventus {
   private _subjectPool: SubjectPool = {}
   private _subscriptionNamespaces: SubscriptionNamespaces = {}
+  private _errorHandler: ErrorHandler = (error: Error) => {
+    throw error
+  }
 
   on(eventString: string, cb: SubscriptionCallback): void {
     const { eventName, namespaces } = Eventus.formatEventString(eventString)
@@ -20,8 +23,8 @@ export class Eventus {
     this.subscribeToNamespaces(namespaces, subscription)
   }
 
-  subscribe(name: string, cb: SubscriptionCallback): void {
-    this.on(name, cb)
+  subscribe(name: string, cb: SubscriptionCallback) {
+    return this.on(name, cb)
   }
 
   off(eventString: string): void {
@@ -31,16 +34,16 @@ export class Eventus {
       'To turn events off, reference a name or namespace, not both':
         namespaces.length && eventName,
       'eventString must reference an event name or namespace':
-        eventName && eventName.startsWith('$'),
-      "Private events can't be disabled": namespaces.length && eventName
+        !namespaces.length && !eventName,
+      "Private events can't be disabled": eventName && eventName.startsWith('$')
     })
 
     if (namespaces.length) this.unsubscribeNamespaces(namespaces)
     else this.unsubscribeEvent(eventName)
   }
 
-  unsubscribe(name: string): void {
-    this.off(name)
+  unsubscribe(name: string) {
+    return this.off(name)
   }
 
   trigger(name: string, ...args: any[]): void {
@@ -50,6 +53,10 @@ export class Eventus {
 
   next(name: string, ...args: any[]): void {
     this.trigger(name, ...args)
+  }
+
+  setErrorhandler(handler: ErrorHandler): void {
+    this._errorHandler = handler
   }
 
   private subscribeToSubject(
@@ -75,6 +82,7 @@ export class Eventus {
   private unsubscribeEvent(eventName: string): void {
     const subject = this._subjectPool[eventName]
     if (subject) subject.unsubscribe()
+    delete this._subjectPool[eventName]
   }
 
   private subscribeToNamespaces(
@@ -96,7 +104,7 @@ export class Eventus {
     if (namespaceSubscription) namespaceSubscription.unsubscribe()
   }
 
-  private static formatEventString(eventString: string): EventObject {
+  static formatEventString(eventString: string): EventObject {
     const eventArray = eventString.split('.')
     const eventName = eventArray[0]
     eventArray.shift()
@@ -107,13 +115,13 @@ export class Eventus {
   }
 
   private checkManyAndThrow(config: CheckManyAndThrowConfig): void {
-    for (const key in config) this.checkAndThrow(config.key, key)
+    for (const key in config) this.checkAndThrow(config[key], key)
   }
 
   private checkAndThrow(test: any, errorMessage: string): void {
     if (!test) return
     const error = new Error(errorMessage)
     this.trigger('$error', error)
-    throw error
+    this._errorHandler(error)
   }
 }

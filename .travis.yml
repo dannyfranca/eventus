@@ -9,8 +9,9 @@ cache:
   directories:
     - ~/.cache
 install:
-  - yarn install
+  - yarn
 script:
-  - yarn run test
+  - yarn test
+  - yarn build
 after_success:
   - yarn run coverage

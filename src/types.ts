@@ -18,3 +18,5 @@ export interface CheckManyAndThrowConfig {
 }
 
 export type SubscriptionCallback = (...args: any[]) => void
+
+export type ErrorHandler = (error: Error) => void
