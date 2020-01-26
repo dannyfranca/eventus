@@ -1,5 +1,5 @@
 <h1 align="center">dannyfranca/eventus</h1>
-<p align="center">Event Manager made with RxJS's Subjects, inspired by jQuery's event API.</p>
+<p align="center">[DEPRECATED] Event Manager made with RxJS's Subjects, inspired by jQuery's event API. Repository moved to @dannyfranca/radarjs</p>
 <p align="center">
 
 <a href="https://npmjs.com/package/@dannyfranca/eventus" target="_blank">

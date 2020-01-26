@@ -1,7 +1,7 @@
 {
   "name": "@dannyfranca/eventus",
-  "version": "0.1.0",
-  "description": "Event Manager made with RxJS's Subjects, inspired by jQuery's event API.",
+  "version": "0.1.3",
+  "description": "[DEPRECATED] Event Manager made with RxJS's Subjects, inspired by jQuery's event API. Repository moved to @dannyfranca/radarjs",
   "license": "MIT",
   "author": {
     "name": "Danny França",
@@ -25,7 +25,7 @@
     "dev": "cross-env NODE_ENV=development jest --watch",
     "build": "cross-env NODE_ENV=production concurrently -n microbundle,typedoc 'microbundle' 'typedoc'",
     "test": "cross-env NODE_ENV=test concurrently -n type-check,lint,jest 'yarn:type-check' 'yarn:lint' 'jest'",
-    "precommit": "concurrently -n type-check,lint 'yarn:type-check' 'yarn:lint'",
+    "precommit": "concurrently -n type-check,lint-staged 'yarn:type-check' 'lint-staged'",
     "doc": "typedoc",
     "coverage": "codecov",
     "type-check": "tsc --noEmit",

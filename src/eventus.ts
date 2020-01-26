@@ -14,6 +14,11 @@ export class Eventus {
     throw error
   }
 
+  /**
+   * ```typescript
+   * Listen to event with a given callback.
+   * ```
+   */
   on(eventString: string, cb: SubscriptionCallback): void {
     const { eventName, namespaces } = Eventus.formatEventString(eventString)
 
@@ -23,10 +28,20 @@ export class Eventus {
     this.subscribeToNamespaces(namespaces, subscription)
   }
 
+  /**
+   * ```typescript
+   * Alias to "on" method
+   * ```
+   */
   subscribe(name: string, cb: SubscriptionCallback) {
     return this.on(name, cb)
   }
 
+  /**
+   * ```typescript
+   * Unsubscribe listener from event
+   * ```
+   */
   off(eventString: string): void {
     const { eventName, namespaces } = Eventus.formatEventString(eventString)
 
@@ -42,19 +57,40 @@ export class Eventus {
     else this.unsubscribeEvent(eventName)
   }
 
+  /**
+   * ```typescript
+   * Alias to "off" method
+   * ```
+   */
   unsubscribe(name: string) {
     return this.off(name)
   }
 
+  /**
+   * ```typescript
+   * Trigger an event with given data
+   * ```
+   */
   trigger(name: string, ...args: any[]): void {
     const subject = this._subjectPool[name]
     if (subject) subject.next(args)
   }
 
+  /**
+   * ```typescript
+   * Alias to "trigger" method
+   * ```
+   */
   next(name: string, ...args: any[]): void {
     this.trigger(name, ...args)
   }
 
+  /**
+   * ```typescript
+   * Set error handler.
+   * Default: throw new Error('{error message}')
+   * ```
+   */
   setErrorhandler(handler: ErrorHandler): void {
     this._errorHandler = handler
   }
